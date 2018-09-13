@@ -1,40 +1,46 @@
-
 {{ include('pages/layout/header.html.twig') }}
 <div class="container">
-        <div class="row">
-            <h1>view posts</h1>
-            <table class="table table-hover">
-                <thead>
+    <div class="row">
+        <a href="{{ absolute_url(asset('')) }}post/create" class="btn btn-primary">Create View</a>
+    </div>
+
+    <div class="row">
+
+
+        <h1>view posts</h1>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for post in posts %}
-                 <tr>
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.description }}</td>
                     <td>{{ post.category }}</td>
                     <td>
-                        <a href="" class="btn btn-primary">View</a>
-                        <a href="" class="btn btn-success">Update</a>
-                        <a href="" class="btn btn-danger">Delete</a>
+                        <a href="{{ absolute_url(asset(''))}}post/show/{{ post.id }}" class="btn btn-primary">View</a>
+                        <a href="{{ absolute_url(asset(''))}}post/update/{{ post.id }}" class="btn btn-success">Update</a>
+                        <a href="{{ absolute_url(asset(''))}}post/delete/{{ post.id }}" class="btn btn-danger">Delete</a>
                     </td>
-                 </tr>
-                {% else %}
-                    <tr>
-                        <td>No record found!</td>
-                    </tr>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No record found!</td>
+                </tr>
 
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endfor %}
+            </tbody>
+        </table>
+
     </div>
+</div>
 
 {{ include('pages/layout/footer.html.twig') }}

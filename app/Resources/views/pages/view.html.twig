@@ -1,1 +1,16 @@
-<h1>view</h1>
+{{ include('pages/layout/header.html.twig') }}
+<div class="container">
+    <h3>View posts</h3>
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+            POST
+        </a>
+        <p href="#" class="list-group-item list-group-item-action">{{ post.title }}
+        </p>
+        <p href="#" class="list-group-item list-group-item-action disabled">{{ post.description }}
+        </p>
+        <p href="#" class="list-group-item list-group-item-action disabled">{{ post.category }}
+        </p>
+    </div>
+</div>
+{{ include('pages/layout/footer.html.twig') }}

@@ -9,5 +9,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    {% for success_message in app.session.flashbag.get('message') %}
+       <div class="alert alert-success" > {{ success_message }}</div>
+    {% endfor %}
     <a class="navbar-brand" href="#">Symfony crud application</a>
 </nav>

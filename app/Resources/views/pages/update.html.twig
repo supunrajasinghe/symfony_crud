@@ -1,1 +1,7 @@
-<h1>update</h1>
+{{ include('pages/layout/header.html.twig') }}
+<div class="container">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>
+{{ include('pages/layout/footer.html.twig') }}

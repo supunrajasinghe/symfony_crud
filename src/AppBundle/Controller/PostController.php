@@ -19,6 +19,20 @@ class PostController extends Controller
     public function viewPostAction(){
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
         return $this->render("pages/index.html.twig", ['posts' => $posts]);
+
+//        $postsArray = $posts->toArray();
+////        $json = json_encode($postsArray);
+////        print_r($json);
+////        exit();
+////        $json>header->set('Content-Type' , 'application/json' );
+////        return $json;
+//        $response = new Response(json_encode($postsArray ));
+//        $response->headers->set('Content-Type', 'application/json');
+//
+//        return $response;
+
+
+
     }
 
     /**
@@ -30,7 +44,7 @@ class PostController extends Controller
             ->add('title', TextType::Class, array('attr' => array('class' => 'form-control')))
             ->add('description', TextareaType::Class, array('attr' => array('class' => 'form-control')))
             ->add('category', TextType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('save', SubmitType::Class, array('label' => 'create post','attr' => array('class' => 'form-control')))
+            ->add('save', SubmitType::Class, array('label' => 'create post','attr' => array('class' => 'btn btn-primary')))
             ->getForm();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -39,8 +53,8 @@ class PostController extends Controller
             $category = $form['category']->getData();
 
             $post->setTitle($title);
-            $post->setTitle($description);
-            $post->setTitle($category);
+            $post->setDescription($description);
+            $post->setCategory($category);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
@@ -56,17 +70,44 @@ class PostController extends Controller
     /**
      * @Route("/post/update/{id}", name="update_post_route")
      */
-    public function updatePostAction($id )
+    public function updatePostAction($id , Request $request)
     {
-        return $this->render("pages/update.html.twig");
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
+
+        $form = $this->createFormBuilder($post)
+            ->add('title', TextType::Class, array('attr' => array('class' => 'form-control')))
+            ->add('description', TextareaType::Class, array('attr' => array('class' => 'form-control')))
+            ->add('category', TextType::Class, array('attr' => array('class' => 'form-control')))
+            ->add('save', SubmitType::Class, array('label' => 'update post','attr' => array('class' => 'btn btn-primary')))
+            ->getForm();
+        $form  -> handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $title = $form['title']->getData();
+            $description = $form['description']->getData();
+            $category = $form['category']->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $post = $em->getRepository('AppBundle:Post')->find($id);
+
+            $post->setTitle($title);
+            $post->setDescription($description);
+            $post->setCategory($category);
+
+            $em->flush();
+            $this->addFlash('message' , 'Post updated successfully');
+            return $this->redirectToRoute('view_post_route');
+
+        }
+        return $this->render("pages/update.html.twig",['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/post/view/{id}", name="show_post_route")
+     * @Route("/post/show/{id}", name="show_post_route")
      */
     public function showPostAction($id )
     {
-        return $this->render("pages/view.html.twig");
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
+        return $this->render("pages/view.html.twig" , ['post' => $post]);
     }
 
     /**
@@ -74,6 +115,11 @@ class PostController extends Controller
      */
     public function deletePostAction($id )
     {
-        return $this->render("pages/delete.html.twig");
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Post')->find($id);
+        $em->remove($post);
+        $em->flush();
+        $this->addFlash('message' , 'Post deleted successfully');
+        return $this->redirectToRoute('view_post_route');
     }
 }
