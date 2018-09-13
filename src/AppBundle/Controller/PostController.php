@@ -6,10 +6,13 @@ use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 class PostController extends Controller
 {
@@ -18,21 +21,21 @@ class PostController extends Controller
     */
     public function viewPostAction(){
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
-        return $this->render("pages/index.html.twig", ['posts' => $posts]);
+//        return $this->render("pages/index.html.twig", ['posts' => $posts]);
 
-//        $postsArray = $posts->toArray();
-////        $json = json_encode($postsArray);
-////        print_r($json);
-////        exit();
-////        $json>header->set('Content-Type' , 'application/json' );
-////        return $json;
-//        $response = new Response(json_encode($postsArray ));
-//        $response->headers->set('Content-Type', 'application/json');
-//
-//        return $response;
+         $responseArray = array();
 
+         foreach($posts as $post){
+            $responseArray[] = array('id' => $post->getId(), 'title' => $post->getTitle(), 'description'=>$post->getDescription(), 'category'=>$post->getCategory());
+         }
 
+         $response = new Response(json_encode($responseArray));
+         $response->headers->set('Content-Type', 'application/json');
 
+         $response->headers->set('Access-Control-Allow-Origin', '*');
+         $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT');
+         $response->headers->set('Access-Control-Allow-Headers', 'X-Header-One,X-Header-Two');
+         return $response;
     }
 
     /**
@@ -66,6 +69,16 @@ class PostController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/post/insert", name="create_post_route")
+     */
+
+    public function insertPostAction(){
+        var_dump($_POST);
+        exit;
+    }
+
 
     /**
      * @Route("/post/update/{id}", name="update_post_route")
