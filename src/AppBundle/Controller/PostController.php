@@ -8,16 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 
 class PostController extends Controller
 {
     /**
-    * @Route("/post", name="view_post_route")
+    * @Route("/api", name="view_post_route")
     */
     public function viewPostAction(){
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
@@ -33,106 +30,88 @@ class PostController extends Controller
          $response->headers->set('Content-Type', 'application/json');
 
          $response->headers->set('Access-Control-Allow-Origin', '*');
-         $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT');
-         $response->headers->set('Access-Control-Allow-Headers', 'X-Header-One,X-Header-Two');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT');
+        $response->headers->set('Access-Control-Allow-Headers', 'X-Header-One,X-Header-Two');
          return $response;
     }
 
     /**
-     * @Route("/post/create", name="create_post_route")
-     */
-    public function createPostAction(Request $request){
-        $post = new Post;
-        $form = $this->createFormBuilder($post)
-            ->add('title', TextType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('description', TextareaType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('category', TextType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('save', SubmitType::Class, array('label' => 'create post','attr' => array('class' => 'btn btn-primary')))
-            ->getForm();
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $title = $form['title']->getData();
-            $description = $form['description']->getData();
-            $category = $form['category']->getData();
-
-            $post->setTitle($title);
-            $post->setDescription($description);
-            $post->setCategory($category);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
-            $this->addFlash('message' , 'Post saved successfully');
-            return $this->redirectToRoute('view_post_route');
-        }
-        return $this->render("pages/create.html.twig",[
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/post/insert", name="create_post_route")
+     * @Route("/api/insert", name="insert_post_route")
      */
 
-    public function insertPostAction(){
-        var_dump($_POST);
-        exit;
+    public function insertPostAction(Request $request){
+
+        $data = json_decode($request->getContent(), true);
+        echo $data['title'];
+
+        $post = new post;
+
+        $title = $data['title'];
+        $description = $data['description'];
+        $category = $data['category'];
+
+        $post->setTitle($title);
+        $post->setDescription($description);
+        $post->setCategory($category);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($post);
+        $em->flush();
+
+        $response = new Response();
+        return $response;
+
     }
 
 
     /**
-     * @Route("/post/update/{id}", name="update_post_route")
+     * @Route("/api/update", name="update_post_route")
      */
-    public function updatePostAction($id , Request $request)
+    public function updatePostAction(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+
+        $id = $data['id'];
+        $title = $data['title'];
+        $description = $data['description'];
+        $category = $data['category'];
+
+
+
         $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
 
-        $form = $this->createFormBuilder($post)
-            ->add('title', TextType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('description', TextareaType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('category', TextType::Class, array('attr' => array('class' => 'form-control')))
-            ->add('save', SubmitType::Class, array('label' => 'update post','attr' => array('class' => 'btn btn-primary')))
-            ->getForm();
-        $form  -> handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $title = $form['title']->getData();
-            $description = $form['description']->getData();
-            $category = $form['category']->getData();
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Post')->find($id);
 
-            $em = $this->getDoctrine()->getManager();
-            $post = $em->getRepository('AppBundle:Post')->find($id);
+        $post->setTitle($title);
+        $post->setDescription($description);
+        $post->setCategory($category);
 
-            $post->setTitle($title);
-            $post->setDescription($description);
-            $post->setCategory($category);
+        $em->flush();
 
-            $em->flush();
-            $this->addFlash('message' , 'Post updated successfully');
-            return $this->redirectToRoute('view_post_route');
-
-        }
-        return $this->render("pages/update.html.twig",['form' => $form->createView()]);
+        $response = new Response();
+        return $response;
     }
 
-    /**
-     * @Route("/post/show/{id}", name="show_post_route")
-     */
-    public function showPostAction($id )
-    {
-        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
-        return $this->render("pages/view.html.twig" , ['post' => $post]);
-    }
 
     /**
-     * @Route("/post/delete/{id}", name="delete_post_route")
+     * @Route("/api/delete", name="delete_post_route")
      */
-    public function deletePostAction($id )
+    public function deletePostAction(Request $request)
     {
+
+        $data = json_decode($request->getContent(), true);
+        $id = $data['id'];
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('AppBundle:Post')->find($id);
         $em->remove($post);
         $em->flush();
         $this->addFlash('message' , 'Post deleted successfully');
-        return $this->redirectToRoute('view_post_route');
+        //return $this->redirectToRoute('view_post_route');
+
+        $response = new Response();
+        return $response;
+
     }
 }

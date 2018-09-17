@@ -9,7 +9,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="controller.js"></script>
-        <script src="service.js"></script>>
+        <script src="service.js"></script>
     </head>
     <body>
     <div class="container">
@@ -17,7 +17,7 @@
 
             <div class="col-md-6">
                 <br>
-                <div class="row">
+                <div ng-if="id != null" class="row">
                     <p>ID : {{id}}</p>
                 </div>
                 <div class="row">
@@ -41,6 +41,17 @@
                     </div>
                 </div>
                 <br>
+                <div class="row">
+                    <div ng-if="messageDelete != null" class="alert alert-danger" role="alert">
+                        {{messageDelete}}
+                    </div>
+                    <div ng-if="messageAdd != null" class="alert alert-success" role="alert">
+                        {{messageAdd}}
+                    </div>
+                    <div ng-if="messageUpdate != null" class="alert alert-primary" role="alert">
+                        {{messageUpdate}}
+                    </div>
+                </div>
                 <div class="row">
                     <table class="table">
                         <thead>
