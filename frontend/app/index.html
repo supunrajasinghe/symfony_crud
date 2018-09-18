@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>-->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="js/controller.js"></script>
+        <script src="js/service.js"></script>
+    </head>
+    <body>
+    <div class="container">
+        <div ng-app="mainApp" ng-controller="CRUDController">
+
+            <div class="col-md-6">
+                {{ testAngular }}
+                <br>
+                <div ng-if="id != null " class="row">
+                    <div ng-if="id != 0 " class="row">
+                        <p>ID : {{id}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <input class="form-control" type="text" placeholder="Title" ng-model="title">
+                </div>
+                <br>
+                <div class="row">
+                    <input class="form-control" type="text" placeholder="Description" ng-model="description">
+                </div>
+                <br>
+                <div class="row">
+                    <input class="form-control" type="text" placeholder="Category" ng-model="category">
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-block" value="add_data" ng-click="addData()">Save</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-block" value="update_data" ng-click="updateData()">Update</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div ng-if="messageDelete != null" class="alert alert-danger" role="alert">
+                        {{messageDelete}}
+                    </div>
+                    <div ng-if="messageAdd != null" class="alert alert-success" role="alert">
+                        {{messageAdd}}
+                    </div>
+                    <div ng-if="messageUpdate != null" class="alert alert-primary" role="alert">
+                        {{messageUpdate}}
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">title</th>
+                                <th scope="col">description</th>
+                                <th scope="col">category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-click="bindSelectData(Emp)" ng-repeat="Emp in Emplist track by $index">
+                                <td>{{Emp.id}}</td>
+                                <td>{{Emp.title}}</td>
+                                <td>{{Emp.description}}</td>
+                                <td>{{Emp.category}}</td>
+                                <td><button type="button" class="btn btn-danger" value="delete_data" ng-click="deleteData(Emp)">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
