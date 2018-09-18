@@ -43,6 +43,7 @@ app.controller("CRUDController", function ($scope, hexafy, $timeout) {
             }, 2000);
         });
     };
+
     $scope.deleteData = function (Emp) {
         hexafy.service_delete_data(Emp.id).then(function(){
             clearModel();
