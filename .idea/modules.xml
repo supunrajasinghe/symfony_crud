@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/gitrepos/clickhq-v2/.idea/clickhq-v2.iml" filepath="$USER_HOME$/gitrepos/clickhq-v2/.idea/clickhq-v2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/symfonyPractice.iml" filepath="$PROJECT_DIR$/.idea/symfonyPractice.iml" />
     </modules>
   </component>

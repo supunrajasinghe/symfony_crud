@@ -6,7 +6,7 @@ app.service('hexafy', function ($http) {
 
         return $http({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/insert',
+            url: 'http://127.0.0.1:8004/api/insert',
             data: data
             // header : { 'Content-Type': 'application/json'}
         })
@@ -16,7 +16,7 @@ app.service('hexafy', function ($http) {
 	this.service_delete_data = function(id){
         return $http({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/delete',
+            url: 'http://127.0.0.1:8004/api/delete',
             data: {
                 id: id
             }
@@ -28,13 +28,13 @@ app.service('hexafy', function ($http) {
 
         return $http({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/update',
+            url: 'http://127.0.0.1:8004/api/update',
             data: data
         })
 	};
 
 	this.service_get_data = function() {
-            var promise =  $http.get('http://127.0.0.1:8000/api');
+            var promise =  $http.get('http://127.0.0.1:8004/api');
             //console.log(promise);
             return promise;
 

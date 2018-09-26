@@ -40,7 +40,7 @@ app.controller("CRUDController", function ($scope, hexafy, $timeout) {
             $scope.messageAdd = "post added successfullly";
             $timeout(function(){
                 $scope.messageAdd = null;
-            }, 2000);
+            }, 4000);
         });
     };
 
@@ -52,7 +52,7 @@ app.controller("CRUDController", function ($scope, hexafy, $timeout) {
             $scope.messageDelete = "post deleted successfullly";
             $timeout(function(){
                 $scope.messageDelete = null;
-            }, 2000);
+            }, 4000);
         });
     };
     
@@ -77,7 +77,7 @@ app.controller("CRUDController", function ($scope, hexafy, $timeout) {
             $scope.messageUpdate = "post updated successfullly";
             $timeout(function(){
                 $scope.messageUpdate = null;
-            }, 2000);
+            }, 4000);
         });
     };
 

@@ -46,13 +46,13 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div ng-if="messageDelete != null" class="alert alert-danger" role="alert">
+                    <div ng-if="messageDelete != null"  class="alert alert-danger" role="alert">
                         {{messageDelete}}
                     </div>
-                    <div ng-if="messageAdd != null" class="alert alert-success" role="alert">
+                    <div ng-if="messageAdd != null"  class="alert alert-success" role="alert">
                         {{messageAdd}}
                     </div>
-                    <div ng-if="messageUpdate != null" class="alert alert-primary" role="alert">
+                    <div ng-if="messageUpdate != null" class="alert alert-primary"  role="alert">
                         {{messageUpdate}}
                     </div>
                 </div>
@@ -68,10 +68,10 @@
                         </thead>
                         <tbody>
                             <tr ng-click="bindSelectData(Emp)" ng-repeat="Emp in Emplist track by $index">
-                                <td>{{Emp.id}}</td>
-                                <td>{{Emp.title}}</td>
-                                <td>{{Emp.description}}</td>
-                                <td>{{Emp.category}}</td>
+                                <td class="id">{{Emp.id}}</td>
+                                <td class="title">{{Emp.title}}</td>
+                                <td class="description">{{Emp.description}}</td>
+                                <td class="category">{{Emp.category}}</td>
                                 <td><button type="button" class="btn btn-danger" value="delete_data" ng-click="deleteData(Emp)">Delete</button></td>
                             </tr>
                         </tbody>
